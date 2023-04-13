@@ -1,12 +1,30 @@
-import { useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import {
+    View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity,
+    FlatList
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons"
 import { Logo } from "../../components/logo";
+import { FoodsList } from "../../components/foodList";
+import Api from "../../services/api"
 
 
 export function Home() {
 
     const [inputValue, setInputValue] = useState("");
+    const [foods, setFoods] = useState([]);
+
+    useEffect(() => {
+        try {
+            valueApi = async () => {
+                const response = await Api.get("/foods")
+                setFoods(response.data);
+            }
+        } catch (error) {
+
+        }
+        valueApi();
+    }, [])
 
     const handleSubmit = () => {
         console.log("Buscando")
@@ -30,6 +48,14 @@ export function Home() {
                     <Ionicons name="search" color="#4CBE6C" size={28} />
                 </TouchableOpacity>
             </View>
+
+            <FlatList
+                data={foods}
+                keyExtractor={(item) => String(item.id)}
+                renderItem={({ item }) => <FoodsList data={item}/>}
+            />
+
+
         </SafeAreaView>
 
     )
