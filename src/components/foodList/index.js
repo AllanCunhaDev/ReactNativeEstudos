@@ -8,7 +8,6 @@ export const FoodsList = ({ data }) => {
     const navigation = useNavigation();
 
     const handleNavigate = ()=>{
-        console.log(data);
         navigation.navigate("Details", {data:data});
     }
     return (
